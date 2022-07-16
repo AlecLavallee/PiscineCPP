@@ -6,7 +6,7 @@
 /*   By: alelaval <alelaval@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/12 15:45:06 by alelaval          #+#    #+#             */
-/*   Updated: 2022/07/13 22:39:01 by alelaval         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:39:54 by alelaval         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 #include <ctime>
 
 /* **** PUBLIC **** */
+
+int Account::_nbAccounts;
+int Account::_totalAmount = 0;
+int Account::_totalNbDeposits = 0;
+int Account::_totalNbWithdrawals = 0;
 
 Account::Account( int initial_deposit )
 {
@@ -26,28 +31,27 @@ Account::~Account( void )
 
 int	Account::getNbAccounts( void )
 {
-	return (_nbAccounts);
+	return (t::_nbAccounts);
 }
 
 int	Account::getTotalAmount( void )
 {
-	return (_totalAmount);
+	return (t::_totalAmount);
 }
+
 int	Account::getNbDeposits( void )
 {
-	return (_totalNbDeposits);
+	return (t::_totalNbDeposits);
 }
 
 int	Account::getNbWithdrawals( void )
 {
-	int ret = 0;
-
-	std::cout << _totalNbWithdrawals;
-	return (ret);
+	return (t::_totalNbWithdrawals);
 }
 
 void	Account::displayAccountsInfos( void )
 {
+	t::_displayTimestamp();
 	std::cout << "accounts:" << getNbAccounts() << ";total" << getTotalAmount() << ";deposits" << getNbDeposits() << ";withdrawals:" << getNbWithdrawals() << std::endl;
 }
 
@@ -55,6 +59,7 @@ void	Account::makeDeposit( int deposit )
 {
 	_amount += deposit;
 	_nbDeposits++;
+	_totalNbDeposits++;
 }
 
 bool	Account::makeWithdrawal( int withdrawal )
@@ -65,7 +70,11 @@ bool	Account::makeWithdrawal( int withdrawal )
 	if ((tmp - withdrawal) < 0)
 		return (false);
 	else
+	{
 		_amount -= withdrawal;
+		_nbWithdrawals++;
+		_totalNbWithdrawals++;
+	}
 	return (true);
 }
 
@@ -76,21 +85,22 @@ int		Account::checkAmount( void ) const
 
 void	Account::displayStatus( void ) const
 {
-	_displayTimestamp();
-	displayAccountsInfos();
+	t::_displayTimestamp();
+	std::cout << "index:" << t::_accountIndex << ";amount:" << t::_amount << ";deposits:" << t::_nbDeposits << ";withdrawals" << t::_nbWithdrawals <<  std::endl;
 }
 
 /* **** PRIVATE **** */
 
 void	Account::_displayTimestamp( void )
 {
-	char *str = NULL;
-	time_t rawtime;
-	struct tm * timeinfo;
+	//char *str = NULL;
+	//time_t rawtime;
+	//struct tm * timeinfo;
 
-	time (&rawtime);
-	timeinfo = localtime(&rawtime);
+	//time (&rawtime);
+	//timeinfo = localtime(&rawtime);
 	
-	strftime(str, 80, "[%Y%m%d%_%H%M%S", timeinfo);
-	std::cout << str << std::flush;
+	//strftime(str, 80, "[%Y%m%d%_%H%M%S", timeinfo);
+	//std::cout << str << std::endl;
+	std::cout << "[ayyy lmao] " << std::flush;
 }
